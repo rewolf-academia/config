@@ -7,21 +7,23 @@ alias reload='source ~/.bashrc'
 
 # For running the Rails app
 alias server='acd;yarn run rails-hot'
+alias pserver='yes3;cosmic;TEST_PUBLISHING=true server;no3;nocosmic' 	# run server w/ publishing-specific flags
 alias webpack='acd;NODE_ENV=hot yarn run webpack'
-alias sidekiq='acd;SIDEKIQ=y bundle exec sidekiq'		# runs background jobs
-alias emails='acd;mailcatcher --ip 0.0.0.0 --foreground'	# captures emails
+alias sidekiq='acd;SIDEKIQ=y bundle exec sidekiq'			# runs background jobs
+alias emails='acd;mailcatcher --ip 0.0.0.0 --foreground'		# captures emails
+alias console='acd;bundle exec rails c'
+alias rs='bundle exec rspec'						# runs the test suite
+# Include any extra bundles for a specific page (ex, fastwp,letter_submission_page)
+fastwp() {
+ local args=`echo "$*" | tr ' ' ','`
+ webpack --include runtime,webpack_libraries_and_infrequently_changed,core_webpack,sentry,$args 
+}
 
 # For turning s3/cosmic on/off
 alias yes3='export REAL_S3=true S3_ATTACHMENTS=true'
 alias no3='export REAL_S3=false S3_ATTACHMENTS=false'
 alias cosmic='export REAL_COSMIC=true'
 alias nocosmic='export REAL_COSMIC=false'
-
-# Run the server with the flags necessary for publishing (and unset after)
-alias pserver='yes3;cosmic;TEST_PUBLISHING=true server;no3;nocosmic'
-
-# Run rspec unit tests
-alias rs='bundle exec rspec'
 
 # Database/package/routing updates--run if changes are made to master (Gemfile.lock, db/migrations, config/routes.rb, etc)
 alias dbm='DUMP_STRUCTURE=n ANNOTATE=n rails db:migrate'
@@ -33,6 +35,5 @@ alias upd='bundle install && yarn install && tdb && dbm && routes'
 get_server_pids() {
   ps aux | grep -e '[n]ode' -e '[u]nicorn' -e '[r]ails c' -e '[p]uma' -e '[s]idekiq' | grep -v 'vscode-server' | awk '{print $2}'
 }
-
 alias ks='kill $(get_server_pids)'
 alias kf='kill -9 $(get_server_pids)' # if the previous command didn't work
