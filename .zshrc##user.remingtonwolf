@@ -14,4 +14,7 @@ alias reload="source ~/.zshrc"
 alias vssh="ssh devdemia.com"
 alias landrush="cd ~/academia/academia-app-vagrant/ && aws-vault exec academia -- ./landrush remy"
 
+alias prodcon="cd $ACADEMIA_SHELL && aws-vault exec academia -- bin/ecs-academia-app-shell production"
+alias qacon="cd $ACADEMIA_SHELL && aws-vault exec academia -- bin/ecs-academia-app-shell qa"
+
 export PATH="$ACADEMIA_SHELL/bin/:$PATH"
