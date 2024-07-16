@@ -26,10 +26,11 @@ alias cosmic='export REAL_COSMIC=true'
 alias nocosmic='export REAL_COSMIC=false'
 
 # Database/package/routing updates--run if changes are made to master (Gemfile.lock, db/migrations, config/routes.rb, etc)
-alias dbm='DUMP_STRUCTURE=n ANNOTATE=n rails db:migrate'
 alias tdb='RAILS_ENV=test bundle exec rails db:drop db:create db:schema:load'
+alias dbm='DUMP_STRUCTURE=n ANNOTATE=n rails db:migrate'
+alias esm='bundle exec rake elasticsearch:migrate'
 alias routes='RAILS_ENV=asset_compilation bundle exec rake assets:generate_routes_js'
-alias upd='bundle install && yarn install && tdb && dbm && routes'
+alias upd='bundle install && yarn install && tdb && dbm && && esm && routes'
 
 # Kill zombie server processes--can be useful if devbox starts to run out of RAM
 get_server_pids() {
