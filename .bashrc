@@ -126,3 +126,4 @@ export ACADEMIA_LDAP_USERNAME='remy'
 export ACADEMIA_APP=$HOME/code/academia-app
 export ACADEMIA_ZOO=$HOME/code/academia-zoo
 export ACADEMIA_CONFIG=$HOME/code/config
+export SSH_AUTH_SOCK=$(ls -t /tmp/ssh-**/* | head -1)
