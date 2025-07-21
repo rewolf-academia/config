@@ -36,8 +36,8 @@ alias tdb='RAILS_ENV=test bundle exec rails db:drop db:create db:schema:load'
 alias dbm='DUMP_STRUCTURE=n ANNOTATE=n bundle exec rails db:migrate'
 alias esm='bundle exec rake elasticsearch:migrate'
 alias routes='RAILS_ENV=asset_compilation bundle exec rake assets:generate_routes_js'
-alias abtest='yarn generate-ab-tests'
-alias upd='bundle install && yarn install && routes && tdb && dbm && esm && abtest'
+alias abtest='pnpm generate-ab-tests'
+alias upd='bundle install && pnpm install && routes && tdb && dbm && esm && abtest'
 
 # Kill zombie server processes--can be useful if devbox starts to run out of RAM
 get_server_pids() {
