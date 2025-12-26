@@ -1,7 +1,10 @@
 export ACADEMIA_SSH_KEY="~/.ssh/github_ed25519"
 export ACADEMIA_LDAP_USERNAME=remy
 export ACADEMIA_CERTIFICATE="~/academia/academia-root-ca.crt"
-export ACADEMIA_SHELL="~/.academia-shell/"
+export ACADEMIA_SHELL=~/.academia-shell
+export ACADEMIA_EKS=~/academia/academia-eks
+export DISABLE_LANDRUSH=1
+export ACADEMIA_EC2_KEYS=~/academia/academia_ec2_keys
 
 export SSH_AUTH_SOCK="~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
 
@@ -12,9 +15,36 @@ fi
 
 alias reload="source ~/.zshrc"
 alias vssh="ssh devdemia.com"
-alias landrush="cd ~/academia/academia-app-vagrant/ && aws-vault exec academia -- ./landrush remy"
 
-alias prodcon="cd $ACADEMIA_SHELL && aws-vault exec academia -- bin/ecs-academia-app-shell production"
-alias qacon="cd $ACADEMIA_SHELL && aws-vault exec academia -- bin/ecs-academia-app-shell qa"
+alias prodcon="cd $ACADEMIA_SHELL && aws-vault exec academia -- bin/eks-academia-app-shell production"
+alias qacon="cd $ACADEMIA_SHELL && aws-vault exec academia -- bin/eks-academia-app-shell qa"
 
 export PATH="$ACADEMIA_SHELL/bin/:$PATH"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# Created by `pipx` on 2025-11-19 18:13:01
+export PATH="$PATH:/Users/remingtonwolf/.local/bin"
+alias python="python3"
+
+# Source academia-shell
+emulate -R zsh -c 'autoload -Uz is-at-least'
+if is-at-least 5.0.0; then
+	emulate -R sh -o kshglob +o shglob +o ignorebraces -o bash_rematch -c '
+		function bash_source {
+			source "$@"
+		}
+	'
+else
+	emulate -R sh -c '
+		function bash_source {
+			# Do note that functions about to be defined will not be set
+			# with these options when run
+			setopt kshglob noshglob braceexpand bash_rematch
+			source "$@"
+		}
+	'
+fi
+bash_source $ACADEMIA_SHELL/academia-shell.sh
