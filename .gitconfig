@@ -6,3 +6,5 @@
 	path = .gitconfig.local
 [blame]
 	ignoreRevsFile = .git-blame-ignore-revs
+[url "https://github.com/"]
+	insteadOf = git@github.com:

@@ -6,34 +6,22 @@ alias acd='cd ~/code/academia-app/'
 alias reload='source ~/.bashrc'
 
 # For running the Rails app
-alias server='acd;debug;./dev -w js'
-alias pserver='yes3;cosmic;TEST_PUBLISHING=true server;no3;nocosmic' 	          # run server w/ publishing-specific flags
-alias dbserver='yes3;prodphotos;debug;./dev -d -w js;no3;noprodphotos;nodebug'  # run server using dblab clone of prod data
-alias webpack='acd;./dev -s -i js'
-alias sidekiq='acd;SIDEKIQ=y bundle exec sidekiq'			                          # runs background jobs
-alias dbsidekiq='dblab;sidekiq;nodblab'						
-alias emails='acd;mailcatcher --ip 0.0.0.0 --foreground'		                    # captures emails
-alias console='acd;bundle exec rails c'
-alias dbconsole='dblab;console;nodblab'
-alias rs='bundle exec rspec'						                                        # runs the test suite
-
-alias dbinit='acd;script/dblab --db main'		# create a clone of the prod db
-
-# For turning flags on/off
-alias yes3='export REAL_S3=true S3_ATTACHMENTS=true'
-alias no3='unset REAL_S3 S3_ATTACHMENTS'
-alias cosmic='export REAL_COSMIC=true'
-alias nocosmic='unset REAL_COSMIC'
-alias dblab='export DBLAB=1 DISABLE_BULLET=1' # bullet is especially slow using dblab
-alias nodblab='unset DBLAB DISABLE_BULLET'
-alias prodphotos='export PRODUCTION_PHOTOS=1'
-alias noprodphotos='unset PRODUCTION_PHOTOS'
-alias debug='export RUBY_DEBUG_OPEN=true'
-alias nodebug='unset RUBY_DEBUG_OPEN'
+alias server='RUBY_DEBUG_OPEN=true ./dev -w hmr ssr renderer'
+alias pserver='REAL_S3=true REAL_COSMIC=true TEST_PUBLISHING=true server' # run server w/ publishing-specific flags
+alias dbserver='REAL_S3=true REAL_COSMIC=true PRODUCTION_PHOTOS=1 RUBY_DEBUG_OPEN=true ./dev -d -w hmr ssr renderer' # run server using dblab clone of prod data
+alias webpack='./dev -s -i hmr ssr renderer'
+alias sidekiq='RUBY_DEBUG_OPEN=true ./dev -w hmr ssr renderer puma' # runs background jobs
+alias dbsidekiq='RUBY_DEBUG_OPEN=true ./dev -d -w hmr ssr renderer puma'						
+alias emails='mailcatcher --ip 0.0.0.0 --foreground' # captures emails
+alias console='rails c'
+alias dbconsole='RUBY_DEBUG_OPEN=true DBLAB=1 console'
+alias rs='RUBY_DEBUG_OPEN=true bundle exec rspec' # runs the test suite
+alias rails='bundle exec rails'
+alias dbinit='script/dblab -a'		# create a clone of the prod db
 
 # Database/package/routing updates--run if changes are made to master (Gemfile.lock, db/migrations, config/routes.rb, etc)
-alias tdb='RAILS_ENV=test bundle exec rails db:drop db:create db:schema:load'
-alias dbm='DUMP_STRUCTURE=n ANNOTATE=n bundle exec rails db:migrate'
+alias tdb='RAILS_ENV=test rails db:drop db:create db:schema:load'
+alias dbm='DUMP_STRUCTURE=n ANNOTATE=n rails db:migrate'
 alias esm='bundle exec rake elasticsearch:migrate'
 alias routes='RAILS_ENV=asset_compilation bundle exec rake assets:generate_routes_js'
 alias abtest='pnpm generate-ab-tests'

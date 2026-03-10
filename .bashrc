@@ -127,3 +127,6 @@ export ACADEMIA_APP=$HOME/code/academia-app
 export ACADEMIA_ZOO=$HOME/code/academia-zoo
 export ACADEMIA_CONFIG=$HOME/code/config
 export SSH_AUTH_SOCK=$(ls -t /tmp/ssh-**/* | head -1)
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+export ACADEMIA_EC2_KEYS=/home/ubuntu/code/academia_ec2_keys/academia
